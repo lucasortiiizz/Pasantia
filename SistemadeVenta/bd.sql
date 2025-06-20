@@ -38,6 +38,9 @@ idCategoria int (11) auto_increment primary key,
 descripcion varchar(200) not null,
 estado int(1) not null
 );
+select * from tb_categoria;
+select descripcion from tb_categoria where descripcion = '';
+truncate table tb_categoria;
 
 -- crear tabla producto
 create table tb_producto(
