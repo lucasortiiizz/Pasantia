@@ -140,6 +140,11 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuItem_gestionar_cliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cliente.png"))); // NOI18N
         jMenuItem_gestionar_cliente.setText("Gestionar Cliente");
         jMenuItem_gestionar_cliente.setPreferredSize(new java.awt.Dimension(180, 30));
+        jMenuItem_gestionar_cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_gestionar_clienteActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem_gestionar_cliente);
 
         jMenuBar1.add(jMenu3);
@@ -287,6 +292,13 @@ public class FrmMenu extends javax.swing.JFrame {
         jDesktopPane_menu.add(interCliente);
         interCliente.setVisible(true);
     }//GEN-LAST:event_jMenuItem_nuevo_clienteActionPerformed
+
+    private void jMenuItem_gestionar_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_gestionar_clienteActionPerformed
+        InterGestionarCliente interGestionarCliente = new InterGestionarCliente();
+        jDesktopPane_menu.add(interGestionarCliente);
+        interGestionarCliente.setVisible(true);
+
+    }//GEN-LAST:event_jMenuItem_gestionar_clienteActionPerformed
 
     /**
      * @param args the command line arguments

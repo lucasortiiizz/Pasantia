@@ -102,10 +102,9 @@ public class Ctrl_Producto {
         );
         consulta.setInt(1, idProducto);
 
-        if (consulta.executeUpdate() > 0) {
+        if (consulta.executeUpdate() > 1) {
             respuesta = true;
         }
-
         cn.close();
     } catch (SQLException e) {
         System.out.println("Error al eliminar producto: " + e);
