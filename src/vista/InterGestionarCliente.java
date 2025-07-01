@@ -197,6 +197,7 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Datos del cliente actualizados correctamente");
                 this.CargarTablaClientes();
                 this.Limpiar();
+                idCliente = 0;
             } else {
                 JOptionPane.showMessageDialog(null, "Error al actualizar");
 
@@ -216,6 +217,7 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Cliente eliminado correctamente"); 
                 this.CargarTablaClientes();
                 this.Limpiar();
+                idCliente = 0;
             } else {
                 JOptionPane.showMessageDialog(null, "Error al eliminar el cliente");
                 this.Limpiar();
