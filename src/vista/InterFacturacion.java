@@ -37,6 +37,12 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
     private double descuento = 0.0;
     private double iva = 0.0;
     private double totalPagar = 0.0;
+    
+    //variables para calculos globales
+    private double subtotalGeneral = 0.0;
+    private double descuentoGeneral = 0.0;
+    private double ivaGeneral = 0.0;
+    private double totalPagarGeneral = 0.0;
 
     private int auxIdDetalle = 1; //id detalle de venta
 
@@ -48,6 +54,14 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
         this.CargarComboCliente();
         this.CargarComboProductos();
         this.InicializarTablaProducto();
+
+        txt_efectivo.setEnabled(false);
+        jButton_calcular_cambio.setEnabled(false);
+
+        txt_subtotal.setText("0.0");
+        txt_iva.setText("0.0");
+        txt_descuento.setText("0.0");
+        txt_total_pagar.setText("0.0");
 
         //insertar imagen en el label
         ImageIcon wallpaper = new ImageIcon("src/img/fondo3.jpg");
@@ -221,6 +235,11 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable_productos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_productosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable_productos);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 740, 190));
@@ -281,6 +300,11 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
         jButton_calcular_cambio.setBackground(new java.awt.Color(51, 255, 255));
         jButton_calcular_cambio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton_calcular_cambio.setText("Calcular Cambio");
+        jButton_calcular_cambio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_calcular_cambioActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton_calcular_cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 130, 50));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 330, 380, 210));
@@ -298,7 +322,6 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jComboBox_productoActionPerformed
 
     private void jButton_buscar_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_buscar_clienteActionPerformed
-
         String clienteBuscar = txt_cliente_buscar.getText().trim();
         Connection cn = (Connection) Conexion.conectar();
         String sql = "select nombre, apellido from tb_cliente where cedula = '" + clienteBuscar + "'";
@@ -370,6 +393,11 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
                             auxIdDetalle++;
                             txt_cantidad.setText(""); // limpiar campo
                             this.CargarComboProductos(); //volver a cargar bombo productos
+                            this.CalcularTotalPagar();
+
+                            txt_efectivo.setEnabled(true);
+                            jButton_calcular_cambio.setEnabled(true);
+
                         } else {
                             JOptionPane.showMessageDialog(null, "La cantidad supera el stock");
                         }
@@ -385,9 +413,50 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Ingrese la cantidad de productos");
             }
         }
-
         this.listaTablaProducto(); // llamar al metodo para cargar los productos
     }//GEN-LAST:event_jButton_añadir_productoActionPerformed
+
+    private void jButton_calcular_cambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_calcular_cambioActionPerformed
+        if (!txt_efectivo.getText().isEmpty()) {
+            //validar que se ingrese caracteres numericos
+            boolean validacion = validarDouble(txt_efectivo.getText());
+            if (validacion) {
+                //validar que el efectivo sea mayor al monto total
+                double efc = Double.parseDouble(txt_efectivo.getText().trim());
+                double top = Double.parseDouble(txt_total_pagar.getText().trim());
+
+                if (efc < top) {
+                    JOptionPane.showMessageDialog(null, "El efectivo es menor al monto total a pagar");
+                } else {
+                    double cambio = (efc - top);
+                    double cambi = (double) Math.round(cambio * 100) / 100;
+                    String camb = String.valueOf(cambi);
+                    txt_cambio.setText(camb);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese caracteres numericos positvos");
+            }
+        } else {
+            JOptionPane.showConfirmDialog(null, "Ingrese el monto de dinero en efectivo");
+        }
+
+
+    }//GEN-LAST:event_jButton_calcular_cambioActionPerformed
+    int idArrayList = 0;
+    private void jTable_productosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_productosMouseClicked
+        int filaPoint = jTable_productos.rowAtPoint(evt.getPoint());
+        int columnaPoint = 0;
+        if (filaPoint > -1) {
+            idArrayList = (int) modeloDatosProducto.getValueAt(filaPoint, columnaPoint);
+        }
+        int opcion = JOptionPane.showConfirmDialog(null, "Desea eliminar el producto?");
+        //opciones del confirm dialog (si=0, no=1, cancel=2, close=-1)
+        if (opcion == 0) {
+            listaProductos.remove(idArrayList - 1);
+            this.CalcularTotalPagar();
+            this.listaTablaProducto();
+        }
+    }//GEN-LAST:event_jTable_productosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -469,7 +538,15 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
             return false;
         }
     }
-
+//Metodo para validar que el usuario no ingrese caracteres no numericos
+    private boolean validarDouble(String valor) {
+        try {
+            double num = Double.parseDouble(valor);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
     //Metodo para mostrar los datos del producto
     private void DatosDelProducto() {
         try {
@@ -488,7 +565,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,"Error al cargar producto");
+            JOptionPane.showMessageDialog(null, "Error al cargar producto");
         }
     }
 
@@ -510,6 +587,33 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
 
         }
         return iva;
+    }
+
+    //MEtodo para calcular total a pagar de venta de productos 
+    private void CalcularTotalPagar() {
+        //reiniciar variables para evitar errores
+        subtotalGeneral = 0;
+        descuentoGeneral = 0;
+        ivaGeneral = 0;
+        totalPagarGeneral = 0;
+
+        for (DetalleVenta elemento : listaProductos) {
+            subtotalGeneral += elemento.getSubtotal();
+            descuentoGeneral += elemento.getDescuento();
+            ivaGeneral += elemento.getIva();
+            totalPagarGeneral += elemento.getTotalPagar();
+        }
+        //redondear decimalles
+        subtotalGeneral = (double) Math.round(subtotalGeneral * 100) / 100;
+        descuentoGeneral = (double) Math.round(descuentoGeneral * 100) / 100;
+        ivaGeneral = (double) Math.round(ivaGeneral * 100) / 100;
+        totalPagarGeneral = (double) Math.round(totalPagarGeneral * 100) / 100;
+
+        //enviar datos a vista
+        txt_subtotal.setText(String.valueOf(subtotalGeneral));
+        txt_descuento.setText(String.valueOf(descuentoGeneral));
+        txt_iva.setText(String.valueOf(ivaGeneral));
+        txt_total_pagar.setText(String.valueOf(totalPagarGeneral));
     }
 
 }

@@ -277,6 +277,7 @@ public class InterGestionarProducto extends javax.swing.JInternalFrame {
             }
 
         }
+        idProducto = 0;
 
     }//GEN-LAST:event_jButton_actualizarActionPerformed
 
@@ -295,8 +296,7 @@ public class InterGestionarProducto extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Error al eliminar el producto");
             }
         }
-
-
+        idProducto = 0;
     }//GEN-LAST:event_jButton_eliminarActionPerformed
 
     private void jComboBox_ivaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_ivaActionPerformed
