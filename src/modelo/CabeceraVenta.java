@@ -1,44 +1,44 @@
-
 package modelo;
 
-
+/**
+ * @author acer
+ */
 public class CabeceraVenta {
-    //atributos
-    private int idCabeceraVenta;
+    
+    //Atributos
+    private int idCabeceraventa;
     private int idCliente;
     private double valorPagar;
     private String fechaVenta;
     private int estado;
     
-    //constructor 
-
-    public CabeceraVenta() {
-        this.idCabeceraVenta = 0;
+    //constructor
+    public CabeceraVenta(){
+        this.idCabeceraventa = 0;
         this.idCliente = 0;
         this.valorPagar = 0.0;
-        this.fechaVenta = " ";
+        this.fechaVenta = "";
         this.estado = 0;
-    //constructor sobrecargado
-    
-        
     }
+    
+     //constructor sobrecargado
 
-    public CabeceraVenta(int idCabeceraVenta, int idCliente, double valorPagar, String fechaVenta, int estado) {
-        this.idCabeceraVenta = idCabeceraVenta;
+    public CabeceraVenta(int idCabeceraventa, int idCliente, double valorPagar, String fechaVenta, int estado) {
+        this.idCabeceraventa = idCabeceraventa;
         this.idCliente = idCliente;
         this.valorPagar = valorPagar;
         this.fechaVenta = fechaVenta;
         this.estado = estado;
     }
     
-    //get- set
+    //get and set 
 
-    public int getIdCabeceraVenta() {
-        return idCabeceraVenta;
+    public int getIdCabeceraventa() {
+        return idCabeceraventa;
     }
 
-    public void setIdCabeceraVenta(int idCabeceraVenta) {
-        this.idCabeceraVenta = idCabeceraVenta;
+    public void setIdCabeceraventa(int idCabeceraventa) {
+        this.idCabeceraventa = idCabeceraventa;
     }
 
     public int getIdCliente() {
@@ -72,10 +72,12 @@ public class CabeceraVenta {
     public void setEstado(int estado) {
         this.estado = estado;
     }
+    
+    //toString 
 
     @Override
     public String toString() {
-        return "CabeceraVenta{" + "idCabeceraVenta=" + idCabeceraVenta + ", idCliente=" + idCliente + ", valorPagar=" + valorPagar + ", fechaVenta=" + fechaVenta + ", estado=" + estado + '}';
+        return "CabeceraVenta{" + "idCabeceraventa=" + idCabeceraventa + ", idCliente=" + idCliente + ", valorPagar=" + valorPagar + ", fechaVenta=" + fechaVenta + ", estado=" + estado + '}';
     }
     
     
