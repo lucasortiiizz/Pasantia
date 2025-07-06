@@ -10,7 +10,7 @@ import modelo.CabeceraVenta;
 import modelo.DetalleVenta;
 
 /**
- * @author acer
+ * @author edison
  */
 public class Ctrl_RegistrarVenta {
     
@@ -18,7 +18,7 @@ public class Ctrl_RegistrarVenta {
     public static int idCabeceraRegistrada;
     java.math.BigDecimal iDColVar;
     
-    //metodo para guardar la cabecera de venta
+    //metodo para guardar la cabecera de venta4
     
     public boolean guardar(CabeceraVenta objeto) {
         boolean respuesta = false;
@@ -50,6 +50,7 @@ public class Ctrl_RegistrarVenta {
     }
     
      //metodo para guardar el detalle de venta
+             
     public boolean guardarDetalle(DetalleVenta objeto) {
         boolean respuesta = false;
         Connection cn = Conexion.conectar();
@@ -72,6 +73,29 @@ public class Ctrl_RegistrarVenta {
             cn.close();
         } catch (SQLException e) {
             System.out.println("Error al guardar detalle de venta: " + e);
+        }
+        return respuesta;
+    }
+    
+    
+         // metodo para actualizar un producto
+    public boolean actualizar(CabeceraVenta objeto, int idCabeceraVenta) {
+        boolean respuesta = false;
+        Connection cn = Conexion.conectar();
+        try {
+
+            PreparedStatement consulta = cn.prepareStatement(
+                    "update tb_cabecera_venta set idCliente = ?, estado = ? "
+                            + "where idCabeceraVenta ='" + idCabeceraVenta + "'");
+            consulta.setInt(1, objeto.getIdCliente());
+            consulta.setInt(2, objeto.getEstado());
+           
+            if (consulta.executeUpdate() > 0) {
+                respuesta = true;
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar cabecera de venta: " + e);
         }
         return respuesta;
     }
