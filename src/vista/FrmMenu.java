@@ -2,10 +2,10 @@ package vista;
 
 import controlador.Reportes;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
 
 public class FrmMenu extends javax.swing.JFrame {
 
@@ -26,6 +26,12 @@ public class FrmMenu extends javax.swing.JFrame {
         this.jDesktopPane_menu.setBounds(0, 0, ancho, (alto - 110));
         this.add(jDesktopPane_menu);
 
+    }
+
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("img/ventas.png"));
+        return retValue;
     }
 
     /**
@@ -65,6 +71,7 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuItem_cerrar_cesion = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png"))); // NOI18N
@@ -283,6 +290,11 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuItem_ver_historial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/historial1.png"))); // NOI18N
         jMenuItem_ver_historial.setText("Ver Historial");
         jMenuItem_ver_historial.setPreferredSize(new java.awt.Dimension(150, 30));
+        jMenuItem_ver_historial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_ver_historialActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem_ver_historial);
 
         jMenuBar1.add(jMenu7);
@@ -367,7 +379,7 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_nuevo_usuarioActionPerformed
 
     private void jMenuItem_gestionar_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_gestionar_usuarioActionPerformed
-         InterGestionarUsuario interGestionarUsuario = new InterGestionarUsuario();
+        InterGestionarUsuario interGestionarUsuario = new InterGestionarUsuario();
         jDesktopPane_menu.add(interGestionarUsuario);
         interGestionarUsuario.setVisible(true);
     }//GEN-LAST:event_jMenuItem_gestionar_usuarioActionPerformed
@@ -385,24 +397,30 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_gestionar_ventaActionPerformed
 
     private void jMenuItem_reportes_clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_reportes_clientesActionPerformed
-       Reportes reporte = new Reportes();
+        Reportes reporte = new Reportes();
         reporte.ReportesClientes();
     }//GEN-LAST:event_jMenuItem_reportes_clientesActionPerformed
 
     private void jMenuItem_reportes_categoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_reportes_categoriasActionPerformed
-         Reportes reporte = new Reportes();
+        Reportes reporte = new Reportes();
         reporte.ReportesCategorias();
     }//GEN-LAST:event_jMenuItem_reportes_categoriasActionPerformed
 
     private void jMenuItem_reportes_productosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_reportes_productosActionPerformed
-      Reportes reporte = new Reportes();
+        Reportes reporte = new Reportes();
         reporte.ReportesProductos();
     }//GEN-LAST:event_jMenuItem_reportes_productosActionPerformed
 
     private void jMenuItem_reportes_ventasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_reportes_ventasActionPerformed
-         Reportes reporte = new Reportes();
+        Reportes reporte = new Reportes();
         reporte.ReportesVentas();
     }//GEN-LAST:event_jMenuItem_reportes_ventasActionPerformed
+
+    private void jMenuItem_ver_historialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_ver_historialActionPerformed
+        InterGraficas interGraficas = new InterGraficas();
+        jDesktopPane_menu.add(interGraficas);
+        interGraficas.setVisible(true);
+    }//GEN-LAST:event_jMenuItem_ver_historialActionPerformed
 
     /**
      * @param args the command line arguments

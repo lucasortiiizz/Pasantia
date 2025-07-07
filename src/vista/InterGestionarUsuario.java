@@ -1,7 +1,6 @@
 package vista;
 
 import conexion.Conexion;
-import controlador.Ctrl_Cliente;
 import controlador.Ctrl_Usuario;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
@@ -17,7 +16,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import modelo.Cliente;
 import modelo.Usuario;
 
 /**
